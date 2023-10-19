@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Controle de Lâmpadas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+
+        table {
+            border-collapse: collapse;
+            margin: 0 auto;
+        }
+
+        table, td {
+            border: 1px solid #ccc;
+        }
+
+        td {
+            width: 100px;
+            height: 100px;
+            text-align: center;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .button {
+            display: inline-block;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        .button:hover {
+            background-color: #45a049;
+        }
+
+        .button-danger {
+            background-color: #f44336;
+        }
+
+        .button-danger:hover {
+            background-color: #d32f2f;
+        }
+
+        .lamp-on {
+            background-color: #00cc00;
+            color: #fff;
+            border-radius: 50%;
+            padding: 20px;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        .lamp-off {
+            background-color: #ff0000;
+            color: #fff;
+            border-radius: 50%;
+            padding: 20px;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        .lamp-off a {
+            color: #fff;
+        }
+
+        .lamp-on a {
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <table>
+        <tr>
+            <td><a class="lamp-on" href="/toggle/1">Lamp 1</a></td>
+            <td><a class="lamp-on" href="/toggle/2">Lamp 2</a></td>
+            <td><a class="lamp-on" href="/toggle/3">Lamp 3</a></td>
+        </tr>
+        <tr>
+            <td><a class="lamp-on" href="/toggle/4">Lamp 4</a></td>
+            <td><a class="lamp-off" href="/toggle/0">No Lamp</a></td>
+            <td><a class="lamp-on" href="/toggle/5">Lamp 5</a></td>
+        </tr>
+        <tr>
+            <td><a class="lamp-on" href="/toggle/6">Lamp 6</a></td>
+            <td><a class="lamp-on" href="/toggle/7">Lamp 7</a></td>
+            <td><a class="lamp-on" href="/toggle/8">Lamp 8</a></td>
+        </tr>
+    </table>
+
+    <div>
+        <a class="button button-danger" href="/turn-off-all">Apagar Todas</a>
+        <a class="button" href="/turn-on-all">Acender Todas</a>
+        <a class="button" href="/random-toggle">Acender/Apagar Aleatório</a>
+    </div>
+    <script>
+        // ... JavaScript existente ...
+    </script>
+</body>
+</html>
