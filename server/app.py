@@ -5,7 +5,7 @@ import random
 import time
 
 app = Flask(__name__)
-ser = serial.Serial('/dev/cu.usbmodem101', 9600)
+ser = serial.Serial('/dev/ttyACM0', 9600)
 lamp_states = [0, 0, 0, 0, 0, 0, 0, 0]
 
 @app.route('/')
