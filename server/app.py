@@ -47,4 +47,4 @@ def random_toggle():
     return render_template('index.html', lamp_states=lamp_states)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', debug=True)
