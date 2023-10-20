@@ -83,6 +83,19 @@
         .no-lamp a {
             color: #000;
         }
+
+        .loading {
+            background-color: #aaa;
+            color: #fff;
+            border-radius: 50%;
+            padding: 20px;
+            animation: spin 2s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
     </style>
 </head>
 <body>
@@ -107,10 +120,53 @@
     <div>
         <a class="button button-danger" href="/turn-off-all">Apagar Todas</a>
         <a class="button" href="/turn-on-all">Acender Todas</a>
-        <a class="button" href="/random-toggle">Acender/Apagar Aleatório</a>
+        <a class="button" href="/random-toggle" id="random-toggle-button">Acender/Apagar Aleatório</a>
     </div>
+
     <script>
-        // ... JavaScript existente ...
+        const lampLinks = document.querySelectorAll('.lamp-on, .lamp-off, .no-lamp');
+        const randomToggleButton = document.getElementById('random-toggle-button');
+
+        // Função para atualizar visualmente o estado das lâmpadas
+        const updateLampStates = () => {
+            fetch('/get-lamp-states')
+                .then(response => response.json())
+                .then(data => {
+                    for (let i = 0; i < lampLinks.length; i++) {
+                        const lampId = i + 1;
+                        if (data[lampId] === 1) {
+                            lampLinks[i].classList.remove('lamp-off', 'no-lamp');
+                            lampLinks[i].classList.add('lamp-on');
+                        } else {
+                            lampLinks[i].classList.remove('lamp-on');
+                            if (lampId === 5) {
+                                lampLinks[i].classList.add('no-lamp');
+                            } else {
+                                lampLinks[i].classList.add('lamp-off');
+                            }
+                        }
+                    }
+                });
+        };
+
+        // Atualize visualmente o estado das lâmpadas assim que a página for carregada
+        updateLampStates();
+
+        // Atualize visualmente o estado das lâmpadas quando os botões forem clicados
+        lampLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                updateLampStates();
+            });
+        });
+
+        // Atualize visualmente o estado das lâmpadas quando o botão "Acender/Apagar Aleatório" for clicado
+        randomToggleButton.addEventListener('click', () => {
+            randomToggleButton.classList.add('loading');
+            setTimeout(() => {
+                randomToggleButton.classList.remove('loading');
+                updateLampStates();
+            }, 1000);
+        });
     </script>
 </body>
 </html>
