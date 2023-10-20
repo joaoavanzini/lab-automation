@@ -32,7 +32,6 @@
             display: block;
             font-weight: bold;
             padding: 10px;
-            border-radius: 50%;
             color: #fff;
             transition: background-color 0.3s, transform 0.2s;
         }
@@ -93,14 +92,11 @@
     </table>
 
     <div class="button-container">
-        <a class="button button-danger" href="/turn-off-all">Apagar Todas</a>
-        <a class="button" href="/turn-on-all">Acender Todas</a>
-        <a class="button" href="/random-toggle" id="random-toggle-button">Acender/Apagar Aleatório</a>
+        <a class="button button-danger" href="/toggle-all">Alternar Todas</a>
     </div>
 
     <script>
         const lampLinks = document.querySelectorAll('a');
-        const randomToggleButton = document.getElementById('random-toggle-button');
 
         // Função para atualizar visualmente o estado das lâmpadas
         const updateLampStates = () => {
@@ -126,15 +122,6 @@
             link.addEventListener('click', () => {
                 updateLampStates();
             });
-        });
-
-        // Atualize visualmente o estado das lâmpadas quando o botão "Acender/Apagar Aleatório" for clicado
-        randomToggleButton.addEventListener('click', () => {
-            randomToggleButton.classList.add('loading');
-            setTimeout(() => {
-                randomToggleButton.classList.remove('loading');
-                updateLampStates();
-            }, 1000);
         });
     </script>
 </body>
