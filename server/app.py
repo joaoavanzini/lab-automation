@@ -23,7 +23,7 @@ def toggle_lamp(lamp_id):
 @app.route('/turn-off-all')
 def turn_off_all():
     for i in range(8):
-        lamp_states[i] = 0
+        lamp_states[i] = 1
         data = {"lamp_id": i + 1, "state": 0}
         ser.write((json.dumps(data) + '\n').encode())
     return render_template('index.html', lamp_states=lamp_states)
@@ -31,7 +31,7 @@ def turn_off_all():
 @app.route('/turn-on-all')
 def turn_on_all():
     for i in range(8):
-        lamp_states[i] = 1
+        lamp_states[i] = 0
         data = {"lamp_id": i + 1, "state": 1}
         ser.write((json.dumps(data) + '\n').encode())
     return render_template('index.html', lamp_states=lamp_states)
