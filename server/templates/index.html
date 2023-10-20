@@ -6,15 +6,19 @@
         body {
             font-family: Arial, sans-serif;
             text-align: center;
+            background-color: #f0f0f0;
+            margin: 0;
         }
 
         table {
             border-collapse: collapse;
             margin: 0 auto;
+            background-color: #fff;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
         }
 
         table, td {
-            border: 1px solid #ccc;
+            border: none;
         }
 
         td {
@@ -25,6 +29,22 @@
 
         a {
             text-decoration: none;
+            display: block;
+            font-weight: bold;
+            padding: 10px;
+            border-radius: 50%;
+            color: #fff;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        a:hover {
+            background-color: #333;
+            transform: scale(1.1);
+        }
+
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
         }
 
         .button {
@@ -35,8 +55,9 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            margin: 5px;
             text-transform: uppercase;
+            font-weight: bold;
+            margin: 5px;
         }
 
         .button:hover {
@@ -50,81 +71,35 @@
         .button-danger:hover {
             background-color: #d32f2f;
         }
-
-        .lamp-on {
-            background-color: #00cc00;
-            color: #fff;
-            border-radius: 50%;
-            padding: 20px;
-            transition: background-color 0.3s ease-in-out;
-        }
-
-        .lamp-off {
-            background-color: #ff0000;
-            color: #fff;
-            border-radius: 50%;
-            padding: 20px;
-            transition: background-color 0.3s ease-in-out;
-        }
-
-        .lamp-off a {
-            color: #fff;
-        }
-
-        .lamp-on a {
-            color: #fff;
-        }
-
-        .no-lamp {
-            background-color: #ccc;
-            color: #000;
-        }
-
-        .no-lamp a {
-            color: #000;
-        }
-
-        .loading {
-            background-color: #aaa;
-            color: #fff;
-            border-radius: 50%;
-            padding: 20px;
-            animation: spin 2s linear infinite;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
     </style>
 </head>
 <body>
     <table>
         <tr>
-            <td><a class="lamp-on" href="/toggle/1">Lamp 1</a></td>
-            <td><a class="lamp-on" href="/toggle/2">Lamp 2</a></td>
-            <td><a class="lamp-on" href="/toggle/3">Lamp 3</a></td>
+            <td><a style="background-color: #00cc00;" href="/toggle/1">Lamp 1</a></td>
+            <td><a style="background-color: #00cc00;" href="/toggle/2">Lamp 2</a></td>
+            <td><a style="background-color: #00cc00;" href="/toggle/3">Lamp 3</a></td>
         </tr>
         <tr>
-            <td><a class="lamp-on" href="/toggle/4">Lamp 4</a></td>
-            <td><a class="no-lamp" href="/toggle/0">No Lamp</a></td>
-            <td><a class="lamp-on" href="/toggle/5">Lamp 5</a></td>
+            <td><a style="background-color: #00cc00;" href="/toggle/4">Lamp 4</a></td>
+            <td><a style="background-color: #ccc; color: #000;" href="/toggle/0">No Lamp</a></td>
+            <td><a style="background-color: #00cc00;" href="/toggle/5">Lamp 5</a></td>
         </tr>
         <tr>
-            <td><a class="lamp-on" href="/toggle/6">Lamp 6</a></td>
-            <td><a class="lamp-on" href="/toggle/7">Lamp 7</a></td>
-            <td><a class="lamp-on" href="/toggle/8">Lamp 8</a></td>
+            <td><a style="background-color: #00cc00;" href="/toggle/6">Lamp 6</a></td>
+            <td><a style="background-color: #00cc00;" href="/toggle/7">Lamp 7</a></td>
+            <td><a style="background-color: #00cc00;" href="/toggle/8">Lamp 8</a></td>
         </tr>
     </table>
 
-    <div>
+    <div class="button-container">
         <a class="button button-danger" href="/turn-off-all">Apagar Todas</a>
         <a class="button" href="/turn-on-all">Acender Todas</a>
         <a class="button" href="/random-toggle" id="random-toggle-button">Acender/Apagar Aleatório</a>
     </div>
 
     <script>
-        const lampLinks = document.querySelectorAll('.lamp-on, .lamp-off, .no-lamp');
+        const lampLinks = document.querySelectorAll('a');
         const randomToggleButton = document.getElementById('random-toggle-button');
 
         // Função para atualizar visualmente o estado das lâmpadas
@@ -135,15 +110,9 @@
                     for (let i = 0; i < lampLinks.length; i++) {
                         const lampId = i + 1;
                         if (data[lampId] === 1) {
-                            lampLinks[i].classList.remove('lamp-off', 'no-lamp');
-                            lampLinks[i].classList.add('lamp-on');
+                            lampLinks[i].style.backgroundColor = '#00cc00';
                         } else {
-                            lampLinks[i].classList.remove('lamp-on');
-                            if (lampId === 5) {
-                                lampLinks[i].classList.add('no-lamp');
-                            } else {
-                                lampLinks[i].classList.add('lamp-off');
-                            }
+                            lampLinks[i].style.backgroundColor = '#ff0000';
                         }
                     }
                 });
