@@ -3,12 +3,20 @@ import serial
 import json
 import random
 import time
+from influxdb import InfluxDBClient
 
 app = Flask(__name__)
 ser_arduino1 = serial.Serial('/dev/ttyACM0', 9600)
 ser_arduino2 = serial.Serial('/dev/ttyUSB0', 115200)
 lamp_states = [0, 0, 0, 0, 0, 0, 0, 0]
-sensor_data_arduino2 = {"gas": 0, "humidity": 0, "temperature": 0, "heatindex": 0, "rain": 0, "soil": 0, "ldr": 0}
+
+# Configurações do InfluxDB
+INFLUXDB_HOST = 'localhost'
+INFLUXDB_PORT = 8086
+INFLUXDB_DATABASE = 'arduino_data'
+client = InfluxDBClient(host=INFLUXDB_HOST, port=INFLUXDB_PORT)
+client.create_database(INFLUXDB_DATABASE)
+client.switch_database(INFLUXDB_DATABASE)
 
 def update_sensor_data_arduino2():
     global sensor_data_arduino2
@@ -16,7 +24,17 @@ def update_sensor_data_arduino2():
         raw_data = ser_arduino2.readline().decode()
         cleaned_data = raw_data.replace("\\", "")
         sensor_data_arduino2 = json.loads(cleaned_data)
-        print(sensor_data_arduino2)
+
+        # Salva os dados no InfluxDB
+        json_body = [
+            {
+                "measurement": "sensor_data",
+                "tags": {},
+                "fields": sensor_data_arduino2
+            }
+        ]
+        client.write_points(json_body)
+
         return sensor_data_arduino2
     except (json.JSONDecodeError, UnicodeDecodeError) as e:
         print(f"Error decoding sensor data: {e}")
@@ -63,7 +81,7 @@ def random_toggle():
 @app.route('/sensordata')
 def sensordata():
     update_sensor_data_arduino2()
-    return jsonify(sensor_data_arduino2)
+    return render_template('sensordata.html', sensor_data_arduino2=sensor_data_arduino2)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
