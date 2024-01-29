@@ -32,9 +32,19 @@
                 .then(response => response.json())
                 .then(data => {
                     // Atualiza sensor data na página
-                    Object.keys(data).forEach(key => {
-                        document.getElementById(`arduino2_${key}`).innerHTML = `${key}: ${data[key]}`;
-                    });
+                    if (data && Object.keys(data).length > 0) {
+                        Object.keys(data).forEach(key => {
+                            const element = document.getElementById(`arduino2_${key}`);
+                            if (element) {
+                                element.innerHTML = `${key}: ${data[key]}`;
+                            }
+                        });
+                    } else {
+                        console.error('Dados do sensor ausentes ou no formato inesperado.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Erro ao buscar dados do sensor:', error);
                 });
         };
     
@@ -47,13 +57,13 @@
 
     <div class="sensor-data-container">
         <h2>Sensor Data (Arduino 2)</h2>
-        <p>Gas: {{ sensor_data_arduino2['gas'] }}</p>
-        <p>Humidity: {{ sensor_data_arduino2['humidity'] }}%</p>
-        <p>Temperature: {{ sensor_data_arduino2['temperature'] }}°C</p>
-        <p>Heat Index: {{ sensor_data_arduino2['heatindex'] }}°C</p>
-        <p>Rain: {{ sensor_data_arduino2['rain'] }}</p>
-        <p>Soil Moisture: {{ sensor_data_arduino2['soil'] }}</p>
-        <p>LDR: {{ sensor_data_arduino2['ldr'] }}</p>
+        <p id="arduino2_gas">Gas: Aguardando dados...</p>
+        <p id="arduino2_humidity">Humidity: Aguardando dados...</p>
+        <p id="arduino2_temperature">Temperature: Aguardando dados...</p>
+        <p id="arduino2_heatindex">Heat Index: Aguardando dados...</p>
+        <p id="arduino2_rain">Rain: Aguardando dados...</p>
+        <p id="arduino2_soil">Soil Moisture: Aguardando dados...</p>
+        <p id="arduino2_ldr">LDR: Aguardando dados...</p>
     </div>
 </body>
 </html>
