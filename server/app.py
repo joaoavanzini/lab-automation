@@ -14,7 +14,9 @@ def update_sensor_data_arduino2():
     global sensor_data_arduino2
     try:
         raw_data = ser_arduino2.readline().decode()
-        sensor_data_arduino2 = json.loads(raw_data)
+        cleaned_data = raw_data.replace("\\", "")
+        sensor_data_arduino2 = json.loads(cleaned_data)
+        return sensor_data_arduino2
     except (json.JSONDecodeError, UnicodeDecodeError) as e:
         print(f"Error decoding sensor data: {e}")
     return sensor_data_arduino2
