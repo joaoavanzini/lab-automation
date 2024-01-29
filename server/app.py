@@ -17,8 +17,10 @@ def update_sensor_data_arduino2():
         cleaned_data = raw_data.replace("\\", "")
         sensor_data_arduino2 = json.loads(cleaned_data)
         print(sensor_data_arduino2)
+        return sensor_data_arduino2
     except (json.JSONDecodeError, UnicodeDecodeError) as e:
         print(f"Error decoding sensor data: {e}")
+    return sensor_data_arduino2
 
 @app.route('/')
 def index():
@@ -61,7 +63,7 @@ def random_toggle():
 @app.route('/sensordata')
 def sensordata():
     update_sensor_data_arduino2()
-    return render_template('sensordata.html', sensor_data_arduino2=sensor_data_arduino2)
+    return jsonify(sensor_data_arduino2)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)

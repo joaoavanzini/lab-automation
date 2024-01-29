@@ -25,6 +25,26 @@
     </style>
 </head>
 <body>
+    <script>
+        // Função para atualizar sensor data do Arduino 2 dinamicamente
+        const updateSensorDataArduino2 = () => {
+            fetch('/sensordata')
+                .then(response => response.json())
+                .then(data => {
+                    // Atualiza sensor data na página
+                    Object.keys(data).forEach(key => {
+                        document.getElementById(`arduino2_${key}`).innerHTML = `${key}: ${data[key]}`;
+                    });
+                });
+        };
+    
+        // Atualiza sensor data do Arduino 2 quando a página carrega
+        updateSensorDataArduino2();
+    
+        // Adiciona intervalo para atualizar sensor data do Arduino 2 periodicamente
+        setInterval(updateSensorDataArduino2, 5000); // Atualiza a cada 5 segundos (ajuste conforme necessário)
+    </script>
+
     <div class="sensor-data-container">
         <h2>Sensor Data (Arduino 2)</h2>
         <p>Gas: {{ sensor_data_arduino2['gas'] }}</p>
