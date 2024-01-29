@@ -103,49 +103,6 @@
         <a class="button button-danger" href="/random-toggle">Alternar Todas</a>
     </div>
 
-    <div class="sensor-data-container">
-        <h2>Sensor Data (Arduino 2)</h2>
-        <p>Gas: {{ sensor_data_arduino2['gas'] }}</p>
-        <p>Humidity: {{ sensor_data_arduino2['humidity'] }}%</p>
-        <p>Temperature: {{ sensor_data_arduino2['temperature'] }}°C</p>
-        <p>Heat Index: {{ sensor_data_arduino2['heatindex'] }}°C</p>
-        <p>Rain: {{ sensor_data_arduino2['rain'] }}</p>
-        <p>Soil Moisture: {{ sensor_data_arduino2['soil'] }}</p>
-        <p>LDR: {{ sensor_data_arduino2['ldr'] }}</p>
-    </div>
-
-    <script>
-        // Function to update sensor data from Arduino 2 dynamically
-        const updateSensorDataArduino2 = () => {
-            fetch('/update-sensor-data')
-                .then(response => response.json())
-                .then(data => {
-                    // Check if the received data is different from the current data
-                    if (!isEqual(data, currentSensorDataArduino2)) {
-                        // Update sensor data on the page
-                        Object.keys(data).forEach(key => {
-                            document.getElementById(`arduino2_${key}`).innerHTML = `${key}: ${data[key]}`;
-                        });
-    
-                        // Update the current data for future comparisons
-                        currentSensorDataArduino2 = data;
-                    }
-                });
-        };
-    
-        // Function to check if two objects are equal
-        const isEqual = (obj1, obj2) => {
-            return JSON.stringify(obj1) === JSON.stringify(obj2);
-        };
-    
-        // Variable to store the current sensor data from Arduino 2
-        let currentSensorDataArduino2 = {};
-    
-        // Update sensor data from Arduino 2 when the page loads
-        updateSensorDataArduino2();
-    </script>
-    
-
     <script>
         const lampLinks = document.querySelectorAll('a');
 
