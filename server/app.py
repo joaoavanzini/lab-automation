@@ -16,10 +16,9 @@ def update_sensor_data_arduino2():
         raw_data = ser_arduino2.readline().decode()
         cleaned_data = raw_data.replace("\\", "")
         sensor_data_arduino2 = json.loads(cleaned_data)
-        return sensor_data_arduino2
+        print(sensor_data_arduino2)
     except (json.JSONDecodeError, UnicodeDecodeError) as e:
         print(f"Error decoding sensor data: {e}")
-    return sensor_data_arduino2
 
 @app.route('/')
 def index():
