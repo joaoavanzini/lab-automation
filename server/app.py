@@ -50,8 +50,14 @@ def random_toggle():
 
 @app.route('/update-sensor-data')
 def update_sensor_data():
-    global sensor_data_arduino2
-    sensor_data_arduino2 = json.loads(ser_arduino2.readline().decode())
+    try:
+        global sensor_data_arduino2
+        line = ser_arduino2.readline().decode().strip()
+        if line:
+            sensor_data_arduino2 = json.loads(line)
+    except Exception as e:
+        print(f"Error reading sensor data: {e}")
+    
     return jsonify(sensor_data_arduino2)
 
 if __name__ == '__main__':
