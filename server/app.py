@@ -9,7 +9,6 @@ ser_arduino1 = serial.Serial('/dev/ttyACM0', 9600)
 ser_arduino2 = serial.Serial('/dev/ttyUSB0', 115200)
 lamp_states = [0, 0, 0, 0, 0, 0, 0, 0]
 
-# Configurações do InfluxDB
 INFLUXDB_HOST = 'localhost'
 INFLUXDB_PORT = 8086
 INFLUXDB_DATABASE = 'arduino_data'
@@ -22,17 +21,19 @@ def update_sensor_data_arduino2():
     try:
         raw_data = ser_arduino2.readline().decode()
         cleaned_data = raw_data.replace("\\", "")
-        sensor_data_arduino2 = json.loads(cleaned_data)
+        new_sensor_data_arduino2 = json.loads(cleaned_data)
 
-        # Salva os dados no InfluxDB
-        json_body = [
-            {
-                "measurement": "sensor_data",
-                "tags": {},
-                "fields": sensor_data_arduino2
-            }
-        ]
-        client.write_points(json_body)
+        if new_sensor_data_arduino2 != sensor_data_arduino2:
+            sensor_data_arduino2 = new_sensor_data_arduino2
+
+            json_body = [
+                {
+                    "measurement": "sensor_data",
+                    "tags": {},
+                    "fields": sensor_data_arduino2
+                }
+            ]
+            client.write_points(json_body)
     except (json.JSONDecodeError, UnicodeDecodeError) as e:
         print(f"Error decoding sensor data: {e}")
 
@@ -74,5 +75,15 @@ def random_toggle():
     time.sleep(1)
     return render_template('index.html', lamp_states=lamp_states)
 
+def background_update():
+    while True:
+        update_sensor_data_arduino2()
+        time.sleep(0.01)
+
 if __name__ == '__main__':
+    import threading
+    update_thread = threading.Thread(target=background_update)
+    update_thread.daemon = True
+    update_thread.start()
+
     app.run(host='0.0.0.0', debug=True)
