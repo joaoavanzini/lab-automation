@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request, jsonify
 import serial
 import json
-import random
 import time
 from influxdb import InfluxDBClient
 
@@ -34,11 +33,8 @@ def update_sensor_data_arduino2():
             }
         ]
         client.write_points(json_body)
-
-        return sensor_data_arduino2
     except (json.JSONDecodeError, UnicodeDecodeError) as e:
         print(f"Error decoding sensor data: {e}")
-    return sensor_data_arduino2
 
 @app.route('/')
 def index():
@@ -77,11 +73,6 @@ def random_toggle():
             ser_arduino1.write((json.dumps(data) + '\n').encode())
     time.sleep(1)
     return render_template('index.html', lamp_states=lamp_states)
-
-@app.route('/sensordata')
-def sensordata():
-    update_sensor_data_arduino2()
-    return render_template('sensordata.html', sensor_data_arduino2=sensor_data_arduino2)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
