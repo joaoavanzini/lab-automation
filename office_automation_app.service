@@ -1,0 +1,11 @@
+[Unit]
+Description=Office automation APP
+After=network.target
+
+[Service]
+User=pi
+WorkingDirectory=/caminho/para/o/seu/aplicativo
+ExecStart=/usr/bin/python3 /caminho/para/o/seu/aplicativo/app.py
+
+[Install]
+WantedBy=multi-user.target
