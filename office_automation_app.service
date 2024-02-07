@@ -4,8 +4,8 @@ After=network.target
 
 [Service]
 User=pi
-WorkingDirectory=/caminho/para/o/seu/aplicativo
-ExecStart=/usr/bin/python3 /caminho/para/o/seu/aplicativo/app.py
+WorkingDirectory=/home/rover/Documents/lab-automation/server
+ExecStart=/usr/bin/python3 /home/rover/Documents/lab-automation/server/app.py
 
 [Install]
 WantedBy=multi-user.target
