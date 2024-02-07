@@ -8,6 +8,7 @@ app = Flask(__name__)
 ser_arduino1 = serial.Serial('/dev/ttyACM0', 9600)
 ser_arduino2 = serial.Serial('/dev/ttyUSB0', 115200)
 lamp_states = [0, 0, 0, 0, 0, 0, 0, 0]
+sensor_data_arduino2 = {} 
 
 INFLUXDB_HOST = 'localhost'
 INFLUXDB_PORT = 8086
@@ -29,8 +30,7 @@ def update_sensor_data_arduino2():
             json_body = [
                 {
                     "measurement": "sensor_data",
-                    "tags": {},
-                    "fields": sensor_data_arduino2
+                    "fields": new_sensor_data_arduino2['measure']
                 }
             ]
             client.write_points(json_body)
